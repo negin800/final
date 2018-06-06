@@ -1,1 +1,6 @@
-/* Put your style rules here. */
+.bg { 
+    opacity: 0.7;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

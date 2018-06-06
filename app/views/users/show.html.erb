@@ -1,0 +1,96 @@
+<% host = User.find_by(id: session["user_id"]) %>
+
+<div class="row">
+  <div class="col-sm-12">
+    <h3>Edit my account</h3>
+  </div>
+</div>
+
+<div class="row">
+  <form action="/users/<%= host.id %>/update" class="col-sm-6">
+
+    <p class="form-group">Name: <input value="<%= host.name %>" class="form-control" name="name" required></p>
+
+    <p class="form-group">Email address: <input value="<%= host.email %>" class="form-control" type="email" name="email" required></p>
+
+    <p class="form-group">Password: <input value="<%= host.password %>" class="form-control" type="password" name="password" required></p>
+    
+    <p class="form-group">Pets: <input value="<%= host.pets %>" class="form-control" name="pets" required></p>
+    
+    
+    <p class="form-group">
+        Host:
+        <% if host.is_host %>
+          <input class="form-control" type="checkbox" name="is_host" checked>
+        <% else %>
+          <input class="form-control" type="checkbox" name="is_host">
+        <% end %>
+    </p>
+
+    <button class="btn btn-primary">Update</button>
+    or
+    <a href="/">Cancel</a>
+
+  </form>
+</div>
+<hr>
+<div class="row">
+  <div class="col-sm-12">
+    <h3>My Posting</h3>
+  </div>
+</div>
+<div class="row">
+<ul>
+  <% for posting in Posting.all %>
+    <% if posting.host_id == session["host_id"] %>
+    <li>
+      <a href="/postings/<%= posting.id %>">
+          <%= posting.title %> [<%= posting.location %>]
+      </a>
+      <a href="/postings/<%= posting.id %>/delete">[delete]</a>
+    </li>
+    <% end %>
+  <% end %>
+</ul>
+</div>
+
+<hr>
+<div class="row">
+  <div class="col-sm-12">
+    <h3>My Booking</h3>
+  </div>
+</div>
+<div class="row">
+  <ul>
+  <% for booking in Booking.all %>
+    <% if booking.user_id == session["user_id"] %>
+    <% posting = Posting.find_by(id: booking.posting_id) %>
+    <li>
+      <a href="/postings/<%= posting.id %>">
+          <%= posting.title %> [<%= posting.location %>] [<%= booking.start_date.strftime("%y-%m-%d") %> - <%= booking.end_date.strftime("%y-%m-%d") %>]
+      </a>
+    </li>
+    <% end %>
+  <% end %>
+  </ul>
+</div>
+
+<hr>
+<div class="row">
+  <div class="col-sm-12">
+    <h3>My Hostings</h3>
+  </div>
+</div>
+<div class="row">
+  <% for booking in Booking.all %>
+    <% if booking.host_id == session["host_id"] %>
+    <% posting = Posting.find_by(id: booking.posting_id) %>
+    <% user = User.find_by(id: booking.user_id) %>
+    <li>
+      <a href="/postings/<%= posting.id %>">
+          <%= posting.title %> [<%= posting.location %>] [<%= booking.start_date.strftime("%y-%m-%d") %> - <%= booking.end_date.strftime("%y-%m-%d") %>] [<%= user.name %>]
+      </a>
+    </li>
+    <% end %>
+  <% end %>
+</div>

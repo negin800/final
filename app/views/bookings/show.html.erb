@@ -1,0 +1,36 @@
+<% r = Posting.find_by(id: params["id"]) %>
+<div class="row">
+  <div class="col-sm-12">
+    <h3><%= r.title %></h3>
+    <p><img width="150" src="<%= r.photo_url %>"></p>
+    <h3>$ <%= r.price %></h3>
+    <p>per night</p>
+  </div>
+</div>
+
+<div class="row">
+  <form action="/bookings/<%= r.id %>/create" class="col-sm-6">
+      <p class="form-group"><b>From:</b><input id="date_start" min="2017-04-01" type="date" class="form-control" name="start_date" required></p>
+      <p class="form-group"><b>To:</b><input id="date_end" min="2017-04-01" type="date" class="form-control" name="end_date" required></p>
+      <button class="btn btn-primary">Submit</button>
+        or
+    <a href="/postings">Cancel</a>
+  </form>
+</div>
+
+
+<script type="text/javascript">
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd='0'+dd
+    } 
+    if (mm < 10){
+        mm='0'+mm
+    } 
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("date_start").setAttribute("min", today);
+    document.getElementById("date_end").setAttribute("min", today);
+</script>

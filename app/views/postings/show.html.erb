@@ -1,0 +1,37 @@
+<% r = Posting.find_by(id: params["id"]) %>
+
+<% host = User.find_by(id: r.host_id) %>
+
+
+<% if host != nil and session["host_id"] != nil and host.id == session["host_id"] %>
+    <a href="/postings/<%= r.id %>/edit" class="btn btn-danger float-right">Edit This Posting</a>
+<% end %>
+
+<h3 class="pl-3"><%= r.title %></h3>
+
+<div class="row">
+  <div class="col-sm-3 d-flex flex-column align-items-center">
+
+    <% if host != nil %>
+        <p> Hosted by <%= host.name %> </p>
+        <p><b>Pets: </b> <%= host.pets %></p>
+    <% else %>
+        <p>Host unknown.</p>
+    <% end %>
+
+    <p><img width="150" src="<%= r.photo_url %>"></p>
+    <h3>$ <%= r.price %></h3>
+    <p>per night</p>
+    <p><a href="/bookings/<%= r.id %>" class="btn btn-primary">Book Now</a></p>
+
+  </div>
+  <div class="col-sm-6">
+    <p class="lead">
+      <b>Summary: </b><%= r.summary %>
+    </p>
+    <p class="lead">
+      <b>Location: </b><%= r.location %>
+    </p>
+  </div>
+
+</div>

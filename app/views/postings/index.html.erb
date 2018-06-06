@@ -1,0 +1,20 @@
+<h1>Posting</h1>
+
+<% if session["user_id"] != nil and session["host_id"] != nil%>
+    <p>
+      <a class="float-right btn btn-primary" href="/postings/new">Add a New Posting</a>
+    <p>
+<% end %>
+
+<ul>
+  <% for posting in Posting.all %>
+    <li>
+      <a href="/postings/<%= posting.id %>">
+          <%= posting.title %> [<%= posting.location %>]
+      </a>
+      <% if posting.host_id == session["host_id"] %>
+      <a href="/postings/<%= posting.id %>/delete">[delete]</a>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
