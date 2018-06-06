@@ -1,0 +1,5 @@
+models: true
+restful_routes: false
+controllers: true
+views: false
+timestamps: true
